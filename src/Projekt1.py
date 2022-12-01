@@ -11,17 +11,21 @@ class Player():
         self.energy = 100
         self.money_amount = 50
         self.location = "Home"
-        self.inventory = {}
+        self.inventory = dict(Steak = 1, EnergyDrink = 0, ProteinBar = 0)
         self.status = {"Name:": name, "Category:": category, "Strength:": strength, "Agility:": agility, "Endurance:": endurance, "Energy:": self.energy, "Money:": self.money_amount}
         self.location = location
+        self.health = endurance * 3
+        self.battle_stamina = 100
 
-class Opponent():
-    def __init__(self, name, category, strength, agility, endurance):
+class SideCharacter():
+    def __init__(self, name, category = "Newbie", strength = 10, agility = 10, endurance = 10):
         self.name = name
         self.category = category
         self.strength = strength
         self.agility = agility
-        self.endurance = endurance   
+        self.endurance = endurance
+        self.battle_stamina = 100
+        self.health = endurance * 3
 
 class Place():
     def __init__(self, name, is_shop, is_gym, is_home):
@@ -48,15 +52,24 @@ def call_command(command):
     elif command == "q":
         return command
 
-def print_formated_text(s,**kwargs):
-    print(txt.get_text(s,**kwargs))
+def print_formated_text(dict, s,**kwargs):
+    print(txt.get_text(dict, s,**kwargs))
     input()
 
+def engage_fight(fighter1, fighter2):
+    print("{} VS {}".format(fighter1.name, fighter2.name))
+    while fighter1.health > 0 and fighter2.health > 0:
+        print("penis")
+        fighter1.health = 0
+    
 locations = dict(
     home = Place("Home", False, False, True),
     gym = Place("Gym", False, True, False),
     shop = Place("Shop", True, False, False) 
 )
+
+bobby = SideCharacter("Bobby", "World Class", 100, 100, 100)
+bully1 = SideCharacter("Bully1")
 
 saves = {}
 current_character = 0
@@ -81,13 +94,19 @@ while command != "Quit":
             print(key)
         character_to_load = input("Which character do you want to load back to the ring? ")
         if character_to_load in saves.keys():
-            current_character = saves.get(character_to_load,)
+            current_character = saves.get(character_to_load)
         break
 
 if command == "New game":
-    for text in txt.prompts.keys():
-        print_formated_text(text, bobby=txt.bobby, trainee=txt.trainee, current_character=current_character.name)
-
+    for text in txt.prompts_intro.keys():
+        print_formated_text(txt.prompts_intro, text, bobby=txt.bobby, trainee=txt.trainee, current_character=current_character.name)
+    for text in txt.prompts_prolog.keys():
+        print_formated_text(txt.prompts_prolog, text, bobby=txt.bobby, current_character=current_character.name)
+        
+    engage_fight(bobby, bully1)
+    
+    print(bobby.health)
+    
 print(txt.commands)
 while call_command(input()) != "q":
     pass
