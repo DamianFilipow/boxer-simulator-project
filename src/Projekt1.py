@@ -14,9 +14,28 @@ class Player():
         self.inventory = dict(Steak = 1, EnergyDrink = 0, ProteinBar = 0)
         self.status = {"Name:": name, "Category:": category, "Strength:": strength, "Agility:": agility, "Endurance:": endurance, "Energy:": self.energy, "Money:": self.money_amount}
         self.location = location
-        self.health = endurance * 3
+        self.health = strength * 3
         self.battle_stamina = 100
-
+        self.damage_reduction = endurance * 0.75
+        
+    def throw_straight(self, enemy):
+        straight_damage = (straight.base_damage * (self.strength * 0.025)) * ((100 - enemy.damage_reduction) / 100)
+        self.battle_stamina = straight.endurance_consumption * (self.endurance * 0.0025)
+        enemy.battle_stamina -= 10
+        print("Your straight deals {}, your enemy is left with {} hp.".format(straight_damage, ))
+    
+    def throw_hook(self, enemy):
+        hook_damage = (hook.base_damage * (self.strength * 0.025)) * (enemy.damage_reduction / 100)
+        self.battle_stamina = hook.endurance_consumption * (self.endurance * 0.0025)
+        enemy.battle_stamina -= 20
+        print()
+    
+    def throw_uppercut(self, enemy):
+        uppercut_damage = (uppercut.base_damage * (self.strength * 0.025)) * (enemy.damage_reduction / 100)
+        self.battle_stamina = uppercut.endurance_consumption * (self.endurance * 0.0025)
+        enemy.battle_stamina -= 15
+        print()
+    
 class SideCharacter():
     def __init__(self, name, category = "Newbie", strength = 10, agility = 10, endurance = 10):
         self.name = name
@@ -25,7 +44,26 @@ class SideCharacter():
         self.agility = agility
         self.endurance = endurance
         self.battle_stamina = 100
-        self.health = endurance * 3
+        self.health = strength * 3
+        self.damage_reduction = endurance * 0.75
+        
+    def throw_straight(self, enemy):
+        enemy.health = enemy.health - (straight.base_damage * (self.strength * 0.1))
+        self.battle_stamina = straight.endurance_consumption * (self.endurance * 0.0025)
+        enemy.battle_stamina -= 10
+        return enemy.health
+    
+    def throw_hook(self, enemy):
+        enemy.health = enemy.health - (hook.base_damage * (self.strength * 0.1))
+        self.battle_stamina = hook.endurance_consumption * (self.endurance * 0.0025)
+        enemy.battle_stamina -= 20
+        return enemy.health
+    
+    def throw_uppercut(self, enemy):
+        enemy.health = enemy.health - (uppercut.base_damage * (self.strength * 0.1))
+        self.battle_stamina = uppercut.endurance_consumption * (self.endurance * 0.0025)
+        enemy.battle_stamina -= 15
+       
 
 class Place():
     def __init__(self, name, is_shop, is_gym, is_home):
@@ -34,6 +72,12 @@ class Place():
         self.is_gym = is_gym
         self.is_home = is_home
 
+class Punch():
+    def __init__(self, name, base_damage, endurance_consumption):
+        self.name = name
+        self.base_damage = base_damage
+        self.endurance_consumption = endurance_consumption
+        
 def make_save():
     saves[name_of_player] = new_player
 
@@ -105,7 +149,6 @@ if command == "New game":
         
     engage_fight(bobby, bully1)
     
-    print(bobby.health)
     
 print(txt.commands)
 while call_command(input()) != "q":
