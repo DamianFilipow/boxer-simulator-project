@@ -1,10 +1,10 @@
 #introduction
-bobby = "BOBBY"
-trainee = "TRAINEE"
-def get_text(prompt, **kwargs):
-    return prompts[prompt].format(**kwargs)
+bobby = "Bobby"
+trainee = "Trainee"
+def get_text(dict, prompt, **kwargs):
+    return dict[prompt].format(**kwargs)
 
-prompts = dict(
+prompts_intro = dict(
     bobby_text_1 = """
     {bobby}
     You can't, you can't give up that easily!
@@ -82,3 +82,80 @@ prompts = dict(
     Haha... I remember that day as it was yesterday.
     """
 )
+
+prompts_prolog = dict(
+    bully_text_1 = """
+    Bully1
+    Stand up you loser!
+    """,
+    
+    bully_text_2 = """
+    Bully2
+    HAHA, kick his fucking ass!!
+    """,
+    
+    bully_text_3 = """
+    Bully3
+    Look at him, he is already crying!!!
+    HAHAH what a piece of shit!
+    """,
+    
+    bully_text_4 = """
+    Bully1
+    Crying? Should I let him go guys?
+    """,
+    
+    bully_text_5 = """
+    Bully2 & Bully3
+    Nooo way, smash his ugly face first!
+    """,
+    
+    mc_text_1 = """
+    {current_character}
+    Plea- please let me go...
+    What- what did I do to you...
+    Just let me go please...
+    """,
+    
+    bully_text_6 = """
+    Bully1
+    Oh it seems you have a tongue in your motherfucking mouth!
+    Beg me!
+    Beg me, so I will let you go and won't crush your skull...
+    HAHA this time HAHA!
+    """,
+    bobby_text_1 = """
+    {bobby}
+    Yo! What a shame guys...
+    Have you ever thought about an even fight?
+    Little boys?
+    """,
+    
+    bully_text_7 = """
+    Bully1
+    You fucki...
+    Do you want your ass beaten too?
+    """,
+    
+    bobby_text_2 = """
+    {bobby}
+    From an unfair fight to a another one?
+    """,
+    
+    bully_text_8 = """
+    Bully1
+    Are you scared now? Get him boys!
+    """,
+    
+    bobby_text_3 = """
+    {bobby}
+    You should be the scared one boy...
+    """,
+)
+
+commands = """
+Here are games commands:
+s for status
+m for map
+i for inventory
+"""
