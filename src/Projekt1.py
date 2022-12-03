@@ -1,5 +1,5 @@
 import prompts.text as txt
-
+import random
 class Player():
     def __init__(self, name, difficulty, location = "Home", category = "Newbie", strength = 10, agility = 10, endurance = 10):
         self.name = name
@@ -20,21 +20,24 @@ class Player():
         
     def throw_straight(self, enemy):
         straight_damage = (straight.base_damage * (self.strength * 0.025)) * ((100 - enemy.damage_reduction) / 100)
+        enemy.health -= straight_damage
         self.battle_stamina = straight.endurance_consumption * (self.endurance * 0.0025)
         enemy.battle_stamina -= 10
-        print("Your straight deals {}, your enemy is left with {} hp.".format(straight_damage, ))
+        print("Your straight deals {}, {} is left with {} hp.".format(straight_damage, enemy.name, enemy.health))
     
     def throw_hook(self, enemy):
         hook_damage = (hook.base_damage * (self.strength * 0.025)) * (enemy.damage_reduction / 100)
+        enemy.health -= hook_damage
         self.battle_stamina = hook.endurance_consumption * (self.endurance * 0.0025)
         enemy.battle_stamina -= 20
-        print()
+        print("Your hook deals {}, {} is left with {} hp.".format(hook_damage, enemy.name, enemy.health))
     
     def throw_uppercut(self, enemy):
         uppercut_damage = (uppercut.base_damage * (self.strength * 0.025)) * (enemy.damage_reduction / 100)
+        enemy.health -= uppercut_damage
         self.battle_stamina = uppercut.endurance_consumption * (self.endurance * 0.0025)
         enemy.battle_stamina -= 15
-        print()
+        print("Your uppercut deals {}, {} is left with {} hp.".format(uppercut_damage, enemy.name, enemy.health))
     
 class SideCharacter():
     def __init__(self, name, category = "Newbie", strength = 10, agility = 10, endurance = 10):
@@ -48,23 +51,26 @@ class SideCharacter():
         self.damage_reduction = endurance * 0.75
         
     def throw_straight(self, enemy):
-        enemy.health = enemy.health - (straight.base_damage * (self.strength * 0.1))
+        straight_damage = (straight.base_damage * (self.strength * 0.025)) * ((100 - enemy.damage_reduction) / 100)
+        enemy.health -= straight_damage
         self.battle_stamina = straight.endurance_consumption * (self.endurance * 0.0025)
         enemy.battle_stamina -= 10
-        return enemy.health
+        print("Your straight deals {}, {} is left with {} hp.".format(straight_damage, enemy.name, enemy.health))
     
     def throw_hook(self, enemy):
-        enemy.health = enemy.health - (hook.base_damage * (self.strength * 0.1))
+        hook_damage = (hook.base_damage * (self.strength * 0.025)) * (enemy.damage_reduction / 100)
+        enemy.health -= hook_damage
         self.battle_stamina = hook.endurance_consumption * (self.endurance * 0.0025)
         enemy.battle_stamina -= 20
-        return enemy.health
+        print("Your hook deals {}, {} is left with {} hp.".format(hook_damage, enemy.name, enemy.health))
     
     def throw_uppercut(self, enemy):
-        enemy.health = enemy.health - (uppercut.base_damage * (self.strength * 0.1))
+        uppercut_damage = (uppercut.base_damage * (self.strength * 0.025)) * (enemy.damage_reduction / 100)
+        enemy.health -= uppercut_damage
         self.battle_stamina = uppercut.endurance_consumption * (self.endurance * 0.0025)
         enemy.battle_stamina -= 15
+        print("Your uppercut deals {}, {} is left with {} hp.".format(uppercut_damage, enemy.name, enemy.health))
        
-
 class Place():
     def __init__(self, name, is_shop, is_gym, is_home):
         self.name = name
@@ -103,14 +109,21 @@ def print_formated_text(dict, s,**kwargs):
 def engage_fight(fighter1, fighter2):
     print("{} VS {}".format(fighter1.name, fighter2.name))
     while fighter1.health > 0 and fighter2.health > 0:
-        print("penis")
-        fighter1.health = 0
+        if fighter1.agility > fighter2.agility:
+            print("")
+            input()
+        else:
+            pass
     
 locations = dict(
     home = Place("Home", False, False, True),
     gym = Place("Gym", False, True, False),
     shop = Place("Shop", True, False, False) 
 )
+
+straight = Punch("straight", 10, 20)
+hook = Punch("hook", 20, 30)
+uppercut = Punch("uppercut", 15, 25)
 
 bobby = SideCharacter("Bobby", "World Class", 100, 100, 100)
 bully1 = SideCharacter("Bully1")
